@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreehari S - Software Engineer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="vscode-container">
+        <!-- Activity Bar -->
+        <div class="activity-bar">
+            <div class="activity-item active">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M14.5 1H1.5C1.22386 1 1 1.22386 1 1.5V14.5C1 14.7761 1.22386 15 1.5 15H14.5C14.7761 15 15 14.7761 15 14.5V1.5C15 1.22386 14.7761 1 14.5 1ZM14 14H2V2H14V14Z"/>
+                    <path d="M3 3H13V4H3V3Z"/>
+                    <path d="M3 5H10V6H3V5Z"/>
+                    <path d="M3 7H13V8H3V7Z"/>
+                    <path d="M3 9H8V10H3V9Z"/>
+                </svg>
+            </div>
+            <div class="activity-item">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M15.7 13.3L11.9 9.5C12.6 8.5 13 7.3 13 6C13 2.7 10.3 0 7 0S1 2.7 1 6S3.7 12 7 12C8.3 12 9.5 11.6 10.5 10.9L14.3 14.7C14.5 14.9 14.8 15 15 15S15.5 14.9 15.7 14.7C16.1 14.3 16.1 13.7 15.7 13.3ZM7 10C4.8 10 3 8.2 3 6S4.8 2 7 2S11 3.8 11 6S9.2 10 7 10Z"/>
+                </svg>
+            </div>
+            <div class="activity-item">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 15C4.1 15 1 11.9 1 8S4.1 1 8 1S15 4.1 15 8S11.9 15 8 15ZM8 2C4.7 2 2 4.7 2 8S4.7 14 8 14S14 11.3 14 8S11.3 2 8 2Z"/>
+                    <path d="M8 11C6.3 11 5 9.7 5 8S6.3 5 8 5S11 6.3 11 8S9.7 11 8 11ZM8 6C6.9 6 6 6.9 6 8S6.9 10 8 10S10 9.1 10 8S9.1 6 8 6Z"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Primary Sidebar -->
+        <div class="primary-sidebar">
+            <div class="sidebar-header">
+                <span class="explorer-title">EXPLORER</span>
+                <div class="sidebar-actions">
+                    <button class="sidebar-action" id="downloadBtn" title="Download Resume">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8.5 1V11.293L11.146 8.646L11.854 9.354L8 13.207L4.146 9.354L4.854 8.646L7.5 11.293V1H8.5Z"/>
+                            <path d="M2 14H14V15H2V14Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="file-explorer">
+                <div class="folder-section">
+                    <div class="folder-header">
+                        <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M14.5 3H7.71L6.85 2.15C6.54 1.84 6.11 1.66 5.67 1.66H1.5C0.67 1.66 0 2.33 0 3.16V12.5C0 13.33 0.67 14 1.5 14H14.5C15.33 14 16 13.33 16 12.5V4.5C16 3.67 15.33 3 14.5 3Z"/>
+                        </svg>
+                        <span>SREEHARI-RESUME</span>
+                    </div>
+                    <div class="file-list">
+                        <div class="file-item active" data-file="about">
+                            <svg class="file-icon markdown-icon" width="16" height="16" viewBox="0 0 16 16" fill="#519aba">
+                                <rect width="16" height="16" rx="2" fill="#519aba"/>
+                                <text x="8" y="11" font-family="Arial, sans-serif" font-size="6" font-weight="bold" text-anchor="middle" fill="white">M</text>
+                                <circle cx="3" cy="4" r="1" fill="white"/>
+                                <circle cx="13" cy="4" r="1" fill="white"/>
+                            </svg>
+                            <span>About.md</span>
+                        </div>
+                        <div class="file-item" data-file="experience">
+                            <svg class="file-icon js-icon" width="16" height="16" viewBox="0 0 16 16" fill="#f1e05a">
+                                <rect width="16" height="16" rx="2" fill="#f1e05a"/>
+                                <text x="8" y="11" font-family="Arial, sans-serif" font-size="5" font-weight="bold" text-anchor="middle" fill="#323330">JS</text>
+                            </svg>
+                            <span>Experience.js</span>
+                        </div>
+                        <div class="file-item" data-file="education">
+                            <svg class="file-icon json-icon" width="16" height="16" viewBox="0 0 16 16" fill="#4caf50">
+                                <rect width="16" height="16" rx="2" fill="#4caf50"/>
+                                <text x="2" y="11" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">{</text>
+                                <text x="14" y="11" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">}</text>
+                            </svg>
+                            <span>Education.json</span>
+                        </div>
+                        <div class="file-item" data-file="skills">
+                            <svg class="file-icon python-icon" width="16" height="16" viewBox="0 0 16 16" fill="#3776ab">
+                                <rect width="16" height="16" rx="2" fill="#3776ab"/>
+                                <ellipse cx="5" cy="6" rx="2" ry="3" fill="#ffd43b"/>
+                                <ellipse cx="11" cy="10" rx="2" ry="3" fill="#ffd43b"/>
+                                <circle cx="4" cy="4" r="0.5" fill="#3776ab"/>
+                                <circle cx="12" cy="12" r="0.5" fill="#3776ab"/>
+                            </svg>
+                            <span>Skills.py</span>
+                        </div>
+                        <div class="file-item" data-file="contact">
+                            <svg class="file-icon yaml-icon" width="16" height="16" viewBox="0 0 16 16" fill="#cb171e">
+                                <rect width="16" height="16" rx="2" fill="#cb171e"/>
+                                <text x="8" y="11" font-family="Arial, sans-serif" font-size="6" font-weight="bold" text-anchor="middle" fill="white">Y</text>
+                                <path d="M3 4 L13 4" stroke="white" stroke-width="0.5"/>
+                                <path d="M3 6 L10 6" stroke="white" stroke-width="0.5"/>
+                                <path d="M3 8 L11 8" stroke="white" stroke-width="0.5"/>
+                            </svg>
+                            <span>Contact.yml</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Editor Area -->
+        <div class="main-editor">
+            <!-- Tab Bar -->
+            <div class="tab-bar">
+                <div class="tab active" id="activeTab">
+                    <svg class="tab-icon markdown-icon" width="16" height="16" viewBox="0 0 16 16" fill="#519aba">
+                        <rect width="16" height="16" rx="2" fill="#519aba"/>
+                        <text x="8" y="11" font-family="Arial, sans-serif" font-size="6" font-weight="bold" text-anchor="middle" fill="white">M</text>
+                        <circle cx="3" cy="4" r="1" fill="white"/>
+                        <circle cx="13" cy="4" r="1" fill="white"/>
+                    </svg>
+                    <span class="tab-title">About.md</span>
+                    <svg class="tab-close" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M12.854 4.854a.5.5 0 00-.708-.708L8 8.293 3.854 4.146a.5.5 0 10-.708.708L7.293 9l-4.147 4.146a.5.5 0 00.708.708L8 9.707l4.146 4.147a.5.5 0 00.708-.708L8.707 9l4.147-4.146z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Editor Content -->
+            <div class="editor-content">
+                <div class="code-area">
+                    <pre class="code-content" id="codeContent"></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-left">
+                <span class="status-item">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M1.5 1A1.5 1.5 0 000 2.5v11A1.5 1.5 0 001.5 15h13a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0014.5 1h-13zM1 2.5a.5.5 0 01.5-.5h13a.5.5 0 01.5.5v11a.5.5 0 01-.5.5h-13a.5.5 0 01-.5-.5v-11z"/>
+                        <path d="M11.5 6a.5.5 0 01-.5-.5V4.5a.5.5 0 011 0V5.5a.5.5 0 01-.5.5z"/>
+                    </svg>
+                    <span id="currentBranch">main</span>
+                </span>
+                <span class="status-item">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+                        <path d="M8 4a.5.5 0 00-.5.5v3.793L5.354 6.146a.5.5 0 10-.708.708l3 3a.5.5 0 00.708 0l3-3a.5.5 0 00-.708-.708L8.5 8.293V4.5A.5.5 0 008 4z"/>
+                    </svg>
+                    <span>0 ↓ 0 ↑</span>
+                </span>
+            </div>
+            <div class="status-right">
+                <span class="status-item">Ln <span id="currentLine">1</span>, Col <span id="currentCol">1</span></span>
+                <span class="status-item">Spaces: 2</span>
+                <span class="status-item">UTF-8</span>
+                <span class="status-item" id="fileType">Markdown</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
