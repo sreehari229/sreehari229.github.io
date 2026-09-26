@@ -126,4 +126,3 @@ This project is open source and available under the MIT License.
 
 ---
 
-**Note**: This is a portfolio website template. Replace the resume data with your own information before deployment.
