@@ -10,7 +10,7 @@ const resumeData = {
   personal: {
     name: 'Sreehari S',
     email: 'sreehari229@gmail.com',
-    website: 'sreehari229.github.io',
+    website: 'sreehari229.in',
     phone: '+91-8971422625',
     linkedin: '@sreehari229',
     github: '@sreehari229',
@@ -124,6 +124,8 @@ function openUrl(u) {
   else window.open(u, '_blank', 'noopener');
 }
 const pad2 = (n) => String(n).padStart(2, '0');
+const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cssVar = (name, fallback = '') => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 
 /* ───────────────────────────── State ───────────────────────────── */
 const THEMES = [
@@ -1317,6 +1319,7 @@ function openFile(id, { focus = true, fromHistory = false } = {}) {
     try { history.replaceState(null, '', '#' + id); } catch (e) { /* file:// */ }
   }
   log(`Opened ${isPreview(id) ? tabLabel(id) : filePath(id)}`);
+  trackExplore(id);
 }
 
 function closeTab(id) {
@@ -2253,7 +2256,7 @@ function tprint(html = '') {
 }
 function banner() {
   tprint(`${span('b', `Welcome to ${P.name}'s resume`)} ${span('ansi-gray', '(bash 5.2)')}`);
-  tprint(`Type ${span('ansi-cyan', 'help')} to list commands. Try ${span('ansi-cyan', 'neofetch')}, ${span('ansi-cyan', 'experience')} or ${span('ansi-cyan', 'git log')}.`);
+  tprint(`Type ${span('ansi-cyan', 'help')} to list commands. Try ${span('ansi-cyan', 'neofetch')}, ${span('ansi-cyan', 'experience')}, ${span('ansi-cyan', 'matrix')} or ${span('ansi-cyan', 'sudo hire sreehari')}.`);
   tprint('');
 }
 function lsLong(all) {
@@ -2270,6 +2273,7 @@ function lsLong(all) {
     const size = String(new Blob([SRC[id]()]).size).padStart(4);
     rows.push(`-rw-r--r-- 1 sreehari sreehari ${size} ${date} ${esc(FILES[id].name)}`);
   });
+  rows.push(`-rw-r--r-- 1 sreehari sreehari  48K ${date} ${span('ansi-magenta', FILES.workstation.name)}`);
   return `total ${rows.length * 4}\n${rows.join('\n')}`;
 }
 function neofetch() {
@@ -2341,6 +2345,11 @@ const HELP = [
   ['email', 'Write an email to Sreehari'],
   ['github | linkedin', 'Open a profile in a new tab'],
   ['theme [name]', 'List or change color themes'],
+  ['matrix', 'Follow the white rabbit (any key exits)'],
+  ['fortune', 'A random programming proverb'],
+  ['cowsay <text>', 'A cow says your text'],
+  ['party', 'Celebrate 🎉'],
+  ['sudo hire sreehari', 'The best command here'],
   ['clear', 'Clear the terminal (Ctrl+L)'],
   ['history, date, pwd, echo, exit', ''],
 ];
@@ -2369,12 +2378,17 @@ const TERM = {
   ls: (args) => {
     const flags = args.filter((a) => a.startsWith('-')).join('');
     if (flags.includes('l')) return lsLong(flags.includes('a'));
-    return (flags.includes('a') ? `${span('ansi-blue b', '.')}  ${span('ansi-blue b', '..')}  ${span('ansi-blue b', '.vscode')}  ` : '') + ROOT_FILES.map((id) => esc(FILES[id].name)).join('  ');
+    return (flags.includes('a') ? `${span('ansi-blue b', '.')}  ${span('ansi-blue b', '..')}  ${span('ansi-blue b', '.vscode')}  ` : '') + ROOT_FILES.map((id) => esc(FILES[id].name)).join('  ') + `  ${span('ansi-magenta', FILES.workstation.name)}`;
   },
   ll: () => lsLong(true),
   cat: (args) => {
     if (!args.length) return 'Usage: cat <file>';
-    return args.map((a) => { const id = fileByName(a); return id ? esc(SRC[id]().replace(/\n$/, '')) : `cat: ${esc(a)}: No such file or directory`; }).join('\n');
+    return args.map((a) => {
+      const id = fileByName(a);
+      if (!id) return `cat: ${esc(a)}: No such file or directory`;
+      if (isScene(id)) return `cat: ${esc(FILES[id].name)}: binary file (glTF). Run ${span('ansi-cyan', 'homelab')} to view it in 3D.`;
+      return esc(SRC[id]().replace(/\n$/, ''));
+    }).join('\n');
   },
   code: (args) => {
     if (!args.length) return 'Usage: code <file>';
@@ -2434,7 +2448,24 @@ const TERM = {
   homelab: () => { openFile('workstation'); return `${span('ansi-green', '●')} rack-01: ${RACK.length}/${RACK.length} servers online. Opened ${span('b', 'Workstation.glb')}.`; },
   uptime: () => { const m = Math.floor(performance.now() / 60000); return ` ${new Date().toTimeString().slice(0, 8)} up ${m} min,  1 user,  load average: 0.42, 0.37, 0.31`; },
   uname: () => 'Linux',
-  sudo: () => 'visitor is not in the sudoers file. This incident will be reported.',
+  sudo: (args) => {
+    if (/^hire\s+(sreehari|me|him)\b/i.test(args.join(' '))) {
+      fx.confetti();
+      unlock('hire', 'sudo make me an offer', 'You found the best command on this site.');
+      return [
+        `[sudo] password for visitor: ${span('ansi-gray', '********')}`,
+        `${span('ansi-green b', '✔ Access granted.')} Preparing offer letter for ${span('b', P.name)}…`,
+        `  ${span('ansi-cyan', 'role'.padEnd(10))}${esc(S.experience[0].title)} (C++ · Python · Linux)`,
+        `  ${span('ansi-cyan', 'status'.padEnd(10))}${span('ansi-green', 'open to work')}`,
+        `  ${span('ansi-cyan', 'next step'.padEnd(10))}<a href="${LINKS.email}">${esc(P.email)}</a> or run ${span('ansi-cyan', 'email')}`,
+      ].join('\n');
+    }
+    return 'visitor is not in the sudoers file. This incident will be reported.';
+  },
+  matrix: () => { fx.matrix(); return reduceMotion() ? 'The Matrix is paused because your system prefers reduced motion.' : `${span('ansi-green', 'Wake up, visitor…')} Press any key to exit.`; },
+  fortune: () => { const [q, who] = FORTUNES[Math.floor(Math.random() * FORTUNES.length)]; return `${esc(q)}\n${span('ansi-gray', `    — ${who}`)}`; },
+  cowsay: (args, raw) => cowsay(raw.replace(/^\s*cowsay\s?/i, '') || 'Hire Sreehari. Moo.'),
+  party: () => { fx.confetti(); return reduceMotion() ? '🎉 (confetti is off because your system prefers reduced motion)' : '🎉 🎉 🎉'; },
   rm: (args) => `rm: cannot remove '${esc(args.filter((a) => !a.startsWith('-')).join(' ') || '')}': Read-only file system`,
   vim: (args) => { const id = fileByName(args[0]); if (id) openFile(id); return `You're already in VS Code${id ? `. Opened ${esc(FILES[id].name)} in the editor` : ''}.`; },
 };
@@ -2445,6 +2476,37 @@ TERM.emacs = TERM.vim;
 TERM.open = TERM.code;
 TERM.mail = TERM.email;
 TERM.cls = TERM.clear;
+TERM.confetti = TERM.party;
+
+const FORTUNES = [
+  ['Talk is cheap. Show me the code.', 'Linus Torvalds'],
+  ['Premature optimization is the root of all evil.', 'Donald Knuth'],
+  ['Programs must be written for people to read, and only incidentally for machines to execute.', 'Harold Abelson'],
+  ['Simplicity is prerequisite for reliability.', 'Edsger W. Dijkstra'],
+  ['First, solve the problem. Then, write the code.', 'John Johnson'],
+  ['Make it work, make it right, make it fast.', 'Kent Beck'],
+  ['Any fool can write code that a computer can understand. Good programmers write code that humans can understand.', 'Martin Fowler'],
+  ['There are only two hard things in Computer Science: cache invalidation and naming things.', 'Phil Karlton'],
+  ['It works on my machine. So I shipped the machine (to a rack in Workstation.glb).', 'Sreehari, probably'],
+  ['Code never lies, comments sometimes do.', 'Ron Jeffries'],
+];
+function cowsay(text) {
+  const words = String(text).split(/\s+/);
+  const rows = [];
+  let cur = '';
+  words.forEach((w) => { if (cur && (cur + ' ' + w).length > 38) { rows.push(cur); cur = w; } else cur = (cur + ' ' + w).trim(); });
+  if (cur) rows.push(cur);
+  const width = Math.max(...rows.map((r) => r.length));
+  const edge = (l, r, s) => `${l} ${s.padEnd(width)} ${r}`;
+  const body = rows.length === 1 ? [edge('<', '>', rows[0])]
+    : rows.map((r, i) => (i === 0 ? edge('/', '\\', r) : i === rows.length - 1 ? edge('\\', '/', r) : edge('|', '|', r)));
+  return esc([` ${'_'.repeat(width + 2)}`, ...body, ` ${'-'.repeat(width + 2)}`,
+    '        \\   ^__^',
+    '         \\  (oo)\\_______',
+    '            (__)\\       )\\/\\',
+    '                ||----w |',
+    '                ||     ||'].join('\n'));
+}
 
 function execTerm(raw) {
   tprint(PROMPT + esc(raw));
@@ -2453,7 +2515,8 @@ function execTerm(raw) {
   if (term.history[term.history.length - 1] !== line) term.history.push(line);
   term.hIdx = term.history.length;
   const [cmd, ...args] = line.split(/\s+/);
-  const fn = TERM[cmd.toLowerCase()];
+  const key = cmd.toLowerCase();
+  const fn = Object.prototype.hasOwnProperty.call(TERM, key) ? TERM[key] : null;
   if (!fn) { tprint(`bash: ${esc(cmd)}: command not found. Type ${span('ansi-cyan', 'help')} to see what's available.`); return; }
   const out = fn(args, line);
   if (out) tprint(out);
@@ -2485,7 +2548,7 @@ termInput.addEventListener('keydown', (e) => {
     const v = termInput.value;
     const parts = v.split(/\s+/);
     const last = parts[parts.length - 1];
-    const pool = parts.length === 1 ? Object.keys(TERM) : [...ROOT_FILES.map((id) => FILES[id].name), '.vscode/settings.json'];
+    const pool = parts.length === 1 ? Object.keys(TERM) : [...ROOT_FILES.map((id) => FILES[id].name), FILES.workstation.name, '.vscode/settings.json'];
     const hits = pool.filter((p) => p.toLowerCase().startsWith(last.toLowerCase()));
     if (hits.length === 1) { parts[parts.length - 1] = hits[0]; termInput.value = parts.join(' ') + (parts.length === 1 ? ' ' : ''); }
     else if (hits.length > 1) { tprint(PROMPT + esc(v)); tprint(hits.map(esc).join('  ')); }
@@ -2666,6 +2729,166 @@ function runResume() {
   autoType('python3 Skills.py');
 }
 
+/* ───────────────────────────── Effects: confetti, matrix rain ───────────────────────────── */
+const fx = (() => {
+  const overlay = (cls) => {
+    const c = document.createElement('canvas');
+    c.className = `fx-canvas ${cls}`;
+    c.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(c);
+    const ctx = c.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const o = { c, ctx, w: 0, h: 0 };
+    o.size = () => {
+      o.w = window.innerWidth; o.h = window.innerHeight;
+      c.width = Math.round(o.w * dpr); c.height = Math.round(o.h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    o.size();
+    return o;
+  };
+  const palette = () => [cssVar('--neon-1', '#2de2e6'), cssVar('--neon-2', '#ff3ea5'), cssVar('--neon-3', '#ffd23f'), cssVar('--ansi-green', '#23d18b'), cssVar('--ansi-blue', '#3b8eea'), cssVar('--accent', '#0078d4')];
+
+  function confetti(n = 160) {
+    if (reduceMotion()) return;
+    const o = overlay('fx-confetti');
+    const colors = palette();
+    const g = 0.28;
+    const parts = Array.from({ length: n }, (_, i) => {
+      const fromLeft = i % 2 === 0;
+      return {
+        x: fromLeft ? -10 : o.w + 10,
+        y: o.h * (0.55 + Math.random() * 0.3),
+        vx: (fromLeft ? 1 : -1) * (4 + Math.random() * 9),
+        vy: -Math.sqrt(2 * g * o.h * (0.45 + Math.random() * 0.45)),
+        w: 6 + Math.random() * 6, h: 3 + Math.random() * 5,
+        rot: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.35,
+        color: colors[i % colors.length], wob: Math.random() * 10,
+      };
+    });
+    let last = performance.now();
+    const t0 = last;
+    const step = (now) => {
+      const f = Math.min(3, (now - last) / 16.67);
+      last = now;
+      o.ctx.clearRect(0, 0, o.w, o.h);
+      let alive = 0;
+      for (const p of parts) {
+        p.vy += g * f; p.vx *= Math.pow(0.985, f); p.vy *= Math.pow(0.995, f);
+        p.x += (p.vx + Math.sin(p.wob + now / 180) * 0.6) * f; p.y += p.vy * f; p.rot += p.vr * f;
+        if (p.y < o.h + 20) alive++;
+        o.ctx.save();
+        o.ctx.translate(p.x, p.y); o.ctx.rotate(p.rot);
+        o.ctx.scale(1, Math.cos(p.wob + now / 120));
+        o.ctx.fillStyle = p.color;
+        o.ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        o.ctx.restore();
+      }
+      if (alive && now - t0 < 6000) requestAnimationFrame(step); else o.c.remove();
+    };
+    requestAnimationFrame(step);
+  }
+
+  let stopMatrix = null;
+  function matrix(ms = 15000) {
+    if (stopMatrix) { stopMatrix(); return; }
+    if (reduceMotion()) return;
+    const o = overlay('fx-matrix');
+    const fs = 16;
+    const glyphs = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎ0123456789{}[]<>=+*#$';
+    const name = P.name.toUpperCase().replace(/\s+/g, '');
+    const color = cssVar('--ansi-green', '#23d18b');
+    const head = cssVar('--neon-1', '#e8fff2');
+    let drops = [];
+    const reset = () => { o.size(); drops = Array.from({ length: Math.ceil(o.w / fs) }, () => Math.floor(Math.random() * -o.h / fs)); };
+    reset();
+    let raf = 0;
+    let last = 0;
+    const draw = (t) => {
+      raf = requestAnimationFrame(draw);
+      if (t - last < 50) return;
+      last = t;
+      o.ctx.fillStyle = 'rgba(0, 0, 0, .09)';
+      o.ctx.fillRect(0, 0, o.w, o.h);
+      o.ctx.font = `${fs}px "Fira Code", Consolas, monospace`;
+      drops.forEach((d, i) => {
+        const y = d * fs;
+        if (y > 0) {
+          // every so often a column spells the owner's name
+          const ch = (i % 11 === 3) ? name[d % name.length] : glyphs[Math.floor(Math.random() * glyphs.length)];
+          o.ctx.fillStyle = Math.random() < 0.06 ? head : color;
+          o.ctx.fillText(ch, i * fs, y);
+        }
+        drops[i] = y > o.h && Math.random() > 0.97 ? 0 : d + 1;
+      });
+    };
+    raf = requestAnimationFrame(draw);
+    const end = () => {
+      if (!stopMatrix) return;
+      stopMatrix = null;
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
+      window.removeEventListener('keydown', end, true);
+      window.removeEventListener('pointerdown', end, true);
+      window.removeEventListener('resize', reset);
+      o.c.classList.add('out');
+      setTimeout(() => o.c.remove(), 600);
+      termInput.focus({ preventScroll: true });
+    };
+    stopMatrix = end;
+    const timer = setTimeout(end, ms);
+    window.addEventListener('resize', reset);
+    // listen a moment later so the key or click that started the rain does not stop it
+    setTimeout(() => {
+      if (stopMatrix !== end) return;
+      window.addEventListener('keydown', end, true);
+      window.addEventListener('pointerdown', end, true);
+    }, 400);
+  }
+  return { confetti, matrix };
+})();
+
+/* Achievements: small rewards for exploring */
+const ACH = new Set(store.get('achievements', []));
+function unlock(id, title, text) {
+  if (ACH.has(id)) return;
+  ACH.add(id);
+  store.set('achievements', [...ACH]);
+  log(`Achievement unlocked: ${title}`);
+  setTimeout(() => notify(`<span class="ach"><i class="codicon codicon-star-full"></i><b>Achievement unlocked: ${esc(title)}</b></span><br>${esc(text)}`, {
+    actions: [{ label: 'Download Resume', primary: true, run: downloadResume }, { label: 'Say Hello', run: () => runCmd('email') }],
+    timeout: 12000,
+  }), 500);
+}
+const EXPLORE = [...ROOT_FILES, 'workstation'];
+const explored = new Set();
+function trackExplore(id) {
+  const b = baseId(id);
+  if (!EXPLORE.includes(b) || ACH.has('explorer')) return;
+  explored.add(b);
+  if (explored.size === EXPLORE.length) {
+    fx.confetti();
+    unlock('explorer', 'Thorough Reviewer', `You opened all ${EXPLORE.length} files. That's more attention than most pull requests get!`);
+  }
+}
+
+/* ↑ ↑ ↓ ↓ ← → ← → B A */
+const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+let konamiAt = 0;
+document.addEventListener('keydown', (e) => {
+  const k = e.key && e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  konamiAt = k === KONAMI[konamiAt] ? konamiAt + 1 : (k === KONAMI[0] ? 1 : 0);
+  if (konamiAt < KONAMI.length) return;
+  konamiAt = 0;
+  fx.matrix();
+  fx.confetti();
+  unlock('konami', '30 Extra Lives', 'Up, up, down, down, left, right, left, right, B, A. A visitor of culture.');
+}, true);
+
+def('fx.matrix', 'Fun: Enter the Matrix', () => fx.matrix());
+def('fx.confetti', 'Fun: Celebrate', () => fx.confetti());
+def('fx.fortune', 'Fun: Fortune', () => { showPanel('terminal'); execTerm('fortune'); });
+
 /* ───────────────────────────── 3D workstation ───────────────────────────── */
 const RACK = [
   { id: 'about', host: 'srv-01', title: 'Profile & professional summary', color: '#4fd2ff' },
@@ -2703,7 +2926,22 @@ function showScene() {
 function hideScene() { if (sceneMounted && window.Workstation) window.Workstation.hide(); }
 
 /* ───────────────────────────── Boot ───────────────────────────── */
+// The splash plays once per browser session. Returns how long it stays on screen (ms).
+function bootSplash() {
+  const el = $('#boot');
+  if (!el) return 0;
+  if (document.documentElement.classList.contains('booted') || reduceMotion()) { el.remove(); return 0; }
+  try { sessionStorage.setItem('vsr.booted', '1'); } catch (e) { /* storage unavailable */ }
+  const done = () => el.remove();
+  el.addEventListener('animationend', (e) => { if (e.target === el) done(); });
+  el.addEventListener('pointerdown', () => el.classList.add('skip'));
+  window.addEventListener('keydown', () => el.classList.add('skip'), { once: true });
+  setTimeout(done, 4000); // in case animationend never fires
+  return 1700;
+}
+
 function init() {
+  const bootMs = bootSplash();
   if (isMobile()) {
     state.sidebarHidden = true;
     state.panelHidden = true;
@@ -2727,13 +2965,13 @@ function init() {
   updateStatus();
   banner();
   if (!state.panelHidden) {
-    setTimeout(() => { if (!term.history.length && !term.busy) autoType('neofetch'); }, 900);
+    setTimeout(() => { if (!term.history.length && !term.busy) autoType('neofetch'); }, 900 + bootMs);
   }
   setTimeout(() => {
     notify(`Would you like to download <b>${esc(P.name)}</b>'s resume?`, {
       actions: [{ label: 'Download', primary: true, run: downloadResume }, { label: 'Not Now' }],
     });
-  }, 2600);
+  }, 2600 + bootMs);
   editorEl.focus({ preventScroll: true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { tokColors = {}; scheduleRelayout(); });
 }

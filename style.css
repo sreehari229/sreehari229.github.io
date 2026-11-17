@@ -1011,3 +1011,69 @@ body.resizing-ew .editor-part, body.resizing-ns .editor-part { pointer-events: n
   .caret { transition: none; }
   .ws-led, .sb-pulse { animation: none; }
 }
+
+/* ==========================================================================
+   Boot splash (once per session)
+   ========================================================================== */
+.boot {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
+  background: radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--accent) 16%, var(--editor-bg)) 0%, var(--titlebar-bg) 70%);
+  color: var(--fg); font-family: var(--ui-font); cursor: pointer;
+  animation: boot-out .5s ease 1.5s forwards;
+}
+.boot.skip { animation-delay: 0s; animation-duration: .25s; }
+html.booted .boot { display: none; }
+.boot-inner { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 24px; }
+.boot-logo {
+  font: 700 72px/1 var(--mono); letter-spacing: -.04em;
+  color: transparent; background: linear-gradient(135deg, var(--neon-2, var(--accent)), var(--neon-1, var(--link))); -webkit-background-clip: text; background-clip: text;
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--neon-2, var(--accent)) 45%, transparent));
+  animation: boot-pop .6s cubic-bezier(.2, 1.4, .4, 1) both;
+}
+.boot-name { font: 500 13px var(--mono); letter-spacing: .32em; text-transform: uppercase; color: var(--fg-muted); animation: boot-fade .4s ease .2s both; }
+.boot-bar { width: 220px; height: 2px; border-radius: 2px; overflow: hidden; background: color-mix(in srgb, var(--fg) 12%, transparent); }
+.boot-bar span { display: block; height: 100%; width: 100%; transform-origin: left; background: linear-gradient(90deg, var(--neon-2, var(--accent)), var(--neon-1, var(--link))); box-shadow: 0 0 10px var(--neon-1, var(--accent)); animation: boot-load 1.35s cubic-bezier(.6, .1, .3, 1) both; }
+.boot-log { margin: 6px 0 0; min-height: 5.6em; font: 12px/1.4 var(--mono); color: var(--fg-muted); white-space: normal; }
+.boot-log span { display: block; white-space: pre; opacity: 0; animation: boot-fade .25s ease both; }
+.boot-log span:nth-child(1) { animation-delay: .25s; }
+.boot-log span:nth-child(2) { animation-delay: .55s; }
+.boot-log span:nth-child(3) { animation-delay: .85s; }
+.boot-log span:nth-child(4) { animation-delay: 1.15s; }
+.boot-log b { color: var(--ansi-green); font-weight: 500; }
+@keyframes boot-out { to { opacity: 0; visibility: hidden; } }
+@keyframes boot-pop { from { opacity: 0; transform: scale(.7); } }
+@keyframes boot-fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes boot-load { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (max-width: 420px) { .boot-logo { font-size: 56px; } .boot-log { font-size: 11px; } }
+
+/* ==========================================================================
+   Fun: confetti, matrix rain, achievements
+   ========================================================================== */
+.fx-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 150; }
+.fx-matrix { opacity: .92; animation: boot-fade .6s ease both; transition: opacity .5s; }
+.fx-matrix.out { opacity: 0; }
+.ach { display: inline-flex; align-items: center; gap: 6px; }
+.ach .codicon { color: var(--neon-3, #f5c518); filter: drop-shadow(0 0 6px currentColor); }
+
+/* ==========================================================================
+   Neon Rack: living gradients
+   ========================================================================== */
+:root[data-theme="neon"] .titlebar::after,
+:root[data-theme="neon"] .statusbar::before {
+  background: linear-gradient(90deg, var(--neon-2), var(--neon-1), var(--neon-3), var(--neon-2));
+  background-size: 300% 100%;
+  animation: neon-slide 10s linear infinite;
+}
+:root[data-theme="neon"] .titlebar::after {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent); mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+}
+:root[data-theme="neon"] .wm-logo { animation: wm-glow 4s ease-in-out infinite; }
+:root[data-theme="neon"] .sb-remote { background: linear-gradient(90deg, #ff3ea5, #b14bff, #ff3ea5); background-size: 200% 100%; animation: neon-slide-2 6s linear infinite; }
+@keyframes neon-slide { to { background-position: 300% 0; } }
+@keyframes neon-slide-2 { to { background-position: 200% 0; } }
+@keyframes wm-glow { 50% { filter: drop-shadow(0 0 30px color-mix(in srgb, var(--neon-1) 45%, transparent)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .boot { display: none; }
+  :root[data-theme="neon"] .titlebar::after, :root[data-theme="neon"] .statusbar::before, :root[data-theme="neon"] .wm-logo, :root[data-theme="neon"] .sb-remote { animation: none; }
+}

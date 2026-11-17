@@ -20,10 +20,12 @@ Plain HTML, CSS and JavaScript: no build step and no framework. The external ass
 | **Source Control** | Career history drawn as a git graph. The commit box opens an email to Sreehari |
 | **Run and Debug (F5)** | Runs `Skills.py` in the terminal while the status bar turns orange |
 | **Extensions** | Skills listed as installed extensions |
-| **Terminal** | Try `help`, `neofetch`, `homelab`, `ssh homelab`, `experience`, `git log`, `ls -la`, `cat About.md`, `theme light-modern` and more |
+| **Terminal** | Try `help`, `neofetch`, `homelab`, `ssh homelab`, `experience`, `git log`, `ls -la`, `cat About.md`, `theme light-modern` and more. For fun: `matrix`, `fortune`, `cowsay hi`, `party` and `sudo hire sreehari` |
 | **Command Palette** | `Ctrl+Shift+P` / `F1` for commands, `Ctrl+P` for files, `:` for a line, `@` for a symbol |
 | **Themes** | Neon Rack (the default, an original synthwave-style theme), Dark Modern, Dark+, Light Modern and Light+ (`Ctrl+K Ctrl+T`). The choice is remembered and the 3D scene follows it |
 | **Markdown preview** | `Ctrl+Shift+V` on `About.md` or `README.md` |
+| **Boot splash** | A short boot sequence the first time the site is opened in a browser session. Click or press any key to skip it |
+| **Easter eggs** | Konami code, confetti, Matrix rain (also in the Command Palette under *Fun:*), and achievements for exploring every file |
 | **Status bar** | Cursor position, language, indentation, notifications and an "Open to work" button |
 
 The site also works on phones: the side bar becomes an overlay and the editor wraps long lines.
