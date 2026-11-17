@@ -131,10 +131,11 @@ const THEMES = [
   { id: 'light-plus', name: 'Light+', kind: 'light' },
   { id: 'dark-modern', name: 'Dark Modern', kind: 'dark' },
   { id: 'dark-plus', name: 'Dark+', kind: 'dark' },
+  { id: 'neon', name: 'Neon Rack', kind: 'dark' },
 ];
-const savedTheme = store.get('theme', 'dark-modern');
+const savedTheme = store.get('theme', 'neon');
 const state = {
-  theme: THEMES.some((t) => t.id === savedTheme) ? savedTheme : 'dark-modern',
+  theme: THEMES.some((t) => t.id === savedTheme) ? savedTheme : 'neon',
   wrap: store.get('wrap', true),
   minimap: store.get('minimap', true),
   sidebarW: store.get('sidebarW', 260),
@@ -425,22 +426,26 @@ const FILES = {
   experience: { name: 'Experience.js', lang: 'javascript', label: 'JavaScript', indent: 2 },
   readme: { name: 'README.md', lang: 'markdown', label: 'Markdown', indent: 2 },
   skills: { name: 'Skills.py', lang: 'python', label: 'Python', indent: 4 },
+  workstation: { name: 'Workstation.glb', lang: 'glb', label: '3D Model', indent: 2 },
 };
 const ROOT_FILES = ['about', 'contact', 'education', 'experience', 'readme', 'skills'];
 const ALL_FILES = ['settings', ...ROOT_FILES];
 const filePath = (id) => (FILES[id].dir ? FILES[id].dir + '/' : '') + FILES[id].name;
 const isPreview = (id) => typeof id === 'string' && id.startsWith('preview:');
+const isScene = (id) => id === 'workstation';
+const isVirtual = (id) => isPreview(id) || isScene(id);
 const baseId = (id) => (isPreview(id) ? id.slice(8) : id);
 const tabLabel = (id) => (isPreview(id) ? `Preview ${FILES[baseId(id)].name}` : FILES[id].name);
 function fileByName(name) {
   const n = String(name || '').toLowerCase().replace(/^\.\//, '');
-  return ALL_FILES.find((id) => FILES[id].name.toLowerCase() === n || filePath(id).toLowerCase() === n) || null;
+  return [...ALL_FILES, 'workstation'].find((id) => FILES[id].name.toLowerCase() === n || filePath(id).toLowerCase() === n) || null;
 }
 
 const PY_SVG = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="#3c78aa" d="M7.9 1.2c-3.1 0-2.9 1.3-2.9 1.3v1.4h3v.4H3.8S1.8 4.1 1.8 7.2s1.7 2.9 1.7 2.9h1.1V8.6s-.1-1.7 1.7-1.7h2.9s1.6 0 1.6-1.6V2.8s.3-1.6-2.9-1.6zM6.3 2.1a.55.55 0 1 1 0 1.1.55.55 0 0 1 0-1.1z"/><path fill="#ffd43b" d="M8.1 14.8c3.1 0 2.9-1.3 2.9-1.3v-1.4H8v-.4h4.2s2-.2 2-3.3-1.7-2.9-1.7-2.9h-1.1v1.5s.1 1.7-1.7 1.7H6.8s-1.6 0-1.6 1.6v2.9s-.3 1.6 2.9 1.6zm1.6-.9a.55.55 0 1 1 0-1.1.55.55 0 0 1 0 1.1z"/></svg>';
 function fileIcon(id) {
   if (isPreview(id)) return '<i class="ficon codicon codicon-open-preview fi-preview"></i>';
   switch (FILES[id].lang) {
+    case 'glb': return '<i class="ficon codicon codicon-server-environment fi-glb"></i>';
     case 'markdown': return '<i class="ficon codicon codicon-markdown fi-md"></i>';
     case 'javascript': return '<span class="ficon fi-js">JS</span>';
     case 'json': case 'jsonc': return '<i class="ficon codicon codicon-json fi-json"></i>';
@@ -727,10 +732,13 @@ function renderLine(toks, isz) {
 
 function renderEditor({ keepScroll = false } = {}) {
   const id = state.active;
-  wb.classList.toggle('no-editor', !id || isPreview(id));
+  wb.classList.toggle('no-editor', !id || isVirtual(id));
   groupEl.classList.toggle('empty', !id);
   editorEl.classList.toggle('previewing', !!id && isPreview(id));
+  editorEl.classList.toggle('scene', !!id && isScene(id));
+  if (!isScene(id)) hideScene();
   if (!id) { doc = null; linesEl.innerHTML = ''; closeFind(); return; }
+  if (isScene(id)) { doc = null; closeFind(); showScene(); return; }
   if (isPreview(id)) {
     doc = null;
     previewEl.innerHTML = `<div class="inner">${mdToHtml(SRC[baseId(id)]())}</div>`;
@@ -1196,7 +1204,7 @@ function renderTabs() {
     + `<span class="tab-close codicon codicon-close" data-close="${id}" title="Close"></span></div>`).join('');
   const act = tabsEl.querySelector('.tab.active');
   if (act) act.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  const md = state.active && !isPreview(state.active) && FILES[state.active].lang === 'markdown';
+  const md = state.active && !isVirtual(state.active) && FILES[state.active].lang === 'markdown';
   $('#previewBtn').style.display = md ? '' : 'none';
 }
 
@@ -1231,6 +1239,7 @@ function renderTree() {
   let html = `<div class="row" data-folder=".vscode" style="--d:0" tabindex="-1"><span class="twistie codicon codicon-chevron-${ex ? 'down' : 'right'}"></span><span class="label">.vscode</span></div>`;
   if (ex) html += rowFile('settings', 1);
   ROOT_FILES.forEach((id) => { html += rowFile(id, 0); });
+  html += rowFile('workstation', 0);
   $('#fileTree').innerHTML = html;
 }
 function renderOpenEditors() {
@@ -1248,7 +1257,7 @@ function renderOutline() {
 
 function updateStatus() {
   const id = state.active;
-  if (id && !isPreview(id)) {
+  if (id && !isVirtual(id)) {
     $('#sbIndent').textContent = `Spaces: ${FILES[id].indent}`;
     $('#sbLangName').textContent = FILES[id].label;
   }
@@ -1270,7 +1279,7 @@ function renderAll() {
 
 function saveViewState() {
   const id = state.active;
-  if (!id) return;
+  if (!id || isScene(id)) return;
   viewState[id] = isPreview(id)
     ? { scrollTop: previewEl.scrollTop }
     : { line: caret.line, col: caret.col, scrollTop: scrollEl.scrollTop, scrollLeft: scrollEl.scrollLeft };
@@ -1278,7 +1287,7 @@ function saveViewState() {
 
 function openFile(id, { focus = true, fromHistory = false } = {}) {
   if (!id || (!FILES[id] && !isPreview(id))) return;
-  if (state.active === id) { if (focus && !isPreview(id)) editorEl.focus({ preventScroll: true }); return; }
+  if (state.active === id) { if (focus && !isVirtual(id)) editorEl.focus({ preventScroll: true }); return; }
   saveViewState();
   clearReveal();
   if (!state.tabs.includes(id)) {
@@ -1291,7 +1300,9 @@ function openFile(id, { focus = true, fromHistory = false } = {}) {
   if (baseId(id) === 'settings') state.expanded['.vscode'] = true;
   renderAll();
   const vs = viewState[id];
-  if (!isPreview(id)) {
+  if (isScene(id)) {
+    try { history.replaceState(null, '', '#' + id); } catch (e) { /* file:// */ }
+  } else if (!isPreview(id)) {
     if (vs) {
       placeCaret(vs.line, vs.col);
       scrollEl.scrollTop = vs.scrollTop;
@@ -1690,6 +1701,7 @@ function setTheme(id, persist = true) {
     refreshSettingsDoc();
   }
   drawMinimap();
+  if (window.Workstation && window.Workstation.ready) requestAnimationFrame(() => window.Workstation.retheme());
 }
 function pickTheme() {
   const current = state.theme;
@@ -1796,12 +1808,12 @@ function quickModel(v) {
   const q = v.trim();
   const lm = q.match(/^(.*?):(\d+)$/);
   const name = lm ? lm[1] : q;
-  const order = [...state.recentFiles, ...ALL_FILES.filter((id) => !state.recentFiles.includes(id))];
+  const order = [...state.recentFiles, ...[...ALL_FILES, 'workstation'].filter((id) => !state.recentFiles.includes(id))];
   const items = order.map((id, i) => ({
     label: FILES[id].name, fileId: id,
     desc: FILES[id].dir ? `${WORKSPACE}/${FILES[id].dir}` : WORKSPACE,
     sepLabel: !q && i === 0 ? 'recently opened' : '',
-    run: () => { openFile(id); if (lm) placeCaret(+lm[2], 1, { scroll: 'center' }); },
+    run: () => { openFile(id); if (lm && !isVirtual(id)) placeCaret(+lm[2], 1, { scroll: 'center' }); },
   }));
   return { items: filterItems(items, name), empty: 'No matching results', placeholder: 'Search files by name (append : to go to line or @ to go to symbol)' };
 }
@@ -2318,6 +2330,7 @@ const HELP = [
   ['education', 'Education'],
   ['skills', 'Technical skills'],
   ['contact', 'Contact details & profiles'],
+  ['homelab', 'Open the 3D workstation'],
   ['neofetch', 'System information... about me'],
   ['ls [-la]', 'List workspace files'],
   ['cat <file>', 'Print a file'],
@@ -2417,6 +2430,9 @@ const TERM = {
   exit: () => { setPanel(false); return null; },
   cd: () => null,
   hostname: () => 'sreehari',
+  ssh: (args) => { openFile('workstation'); return `Connecting to ${span('ansi-cyan', args[0] || 'homelab')}… ${span('ansi-green', 'connected')}. Opened ${span('b', 'Workstation.glb')} in the editor.`; },
+  homelab: () => { openFile('workstation'); return `${span('ansi-green', '●')} rack-01: ${RACK.length}/${RACK.length} servers online. Opened ${span('b', 'Workstation.glb')}.`; },
+  uptime: () => { const m = Math.floor(performance.now() / 60000); return ` ${new Date().toTimeString().slice(0, 8)} up ${m} min,  1 user,  load average: 0.42, 0.37, 0.31`; },
   uname: () => 'Linux',
   sudo: () => 'visitor is not in the sudoers file. This incident will be reported.',
   rm: (args) => `rm: cannot remove '${esc(args.filter((a) => !a.startsWith('-')).join(' ') || '')}': Read-only file system`,
@@ -2542,6 +2558,7 @@ def('leetcode', 'Resume: Open LeetCode Profile', () => openUrl(LINKS.leetcode));
 def('hackerrank', 'Resume: Open HackerRank Profile', () => openUrl(LINKS.hackerrank));
 def('copyEmail', 'Resume: Copy Email Address', () => { copyText(P.email); notify('Email address copied to clipboard.'); });
 def('openReadme', 'Help: Welcome', () => openFile('readme'));
+def('workstation', 'Homelab: Open 3D Workstation', () => openFile('workstation'));
 def('refreshExplorer', 'File: Refresh Explorer', () => { renderTree(); renderOpenEditors(); }, '', { palette: false });
 def('collapseFolders', 'File: Collapse Folders in Explorer', () => { state.expanded['.vscode'] = false; renderTree(); }, '', { palette: false });
 def('about', 'Help: About', () => notify(`<b>${esc(P.name)} · Resume</b><br>Version 3.0.0, built to look and work like Visual Studio Code.<br>Plain HTML, CSS and JavaScript, hosted on GitHub Pages.`, { timeout: 9000 }));
@@ -2649,6 +2666,42 @@ function runResume() {
   autoType('python3 Skills.py');
 }
 
+/* ───────────────────────────── 3D workstation ───────────────────────────── */
+const RACK = [
+  { id: 'about', host: 'srv-01', title: 'Profile & professional summary', color: '#4fd2ff' },
+  { id: 'experience', host: 'srv-02', title: `${S.experience.length} roles · C++, Python, C#`, color: '#ffd23f' },
+  { id: 'skills', host: 'srv-03', title: `${skillCategories().reduce((n, c) => n + c.items.length, 0)} skills in ${skillCategories().length} groups`, color: '#7cff6b' },
+  { id: 'education', host: 'srv-04', title: `${S.education.length} degrees · CGPA ${S.education[0].cgpa}`, color: '#ff8a3d' },
+  { id: 'contact', host: 'srv-05', title: 'Email, GitHub, LinkedIn, LeetCode', color: '#ff3ea5' },
+  { id: 'readme', host: 'srv-06', title: 'Workspace guide & shortcuts', color: '#9b7bff' },
+].map((u) => ({ ...u, file: FILES[u.id].name }));
+let sceneMounted = false;
+function screenLines() {
+  return getDoc('experience').toks.map((line) => line.map((tk) => ({ t: tk.t, color: tk.c === 'ws' ? '' : tokColor(tk.c) })));
+}
+function showScene() {
+  const host = $('#scene3d');
+  if (!window.Workstation) {
+    host.innerHTML = '<div class="ws-error"><i class="codicon codicon-warning"></i><div><b>workstation.js did not load.</b></div></div>';
+    return;
+  }
+  if (sceneMounted) { window.Workstation.show(); return; }
+  sceneMounted = true;
+  window.Workstation.mount(host, {
+    units: RACK,
+    screen: screenLines,
+    log,
+    onOpen: (id) => { if (FILES[id]) openFile(id); },
+  }).then(() => {
+    if (!isScene(state.active)) window.Workstation.hide();
+    log('Workstation.glb: scene ready');
+  }).catch((e) => {
+    sceneMounted = false;
+    log(`Workstation.glb: ${e.message}`, 'error');
+  });
+}
+function hideScene() { if (sceneMounted && window.Workstation) window.Workstation.hide(); }
+
 /* ───────────────────────────── Boot ───────────────────────────── */
 function init() {
   if (isMobile()) {
@@ -2660,14 +2713,14 @@ function init() {
   }
   setTheme(state.theme, false);
   const fromHash = location.hash.slice(1);
-  state.tabs = ['about', 'experience', 'skills'];
+  state.tabs = ['workstation', 'about', 'experience', 'skills'];
   if (FILES[fromHash] && !state.tabs.includes(fromHash)) state.tabs.push(fromHash);
   applyLayout();
   renderSCM();
   renderExtensions();
   log(`Activating workspace '${WORKSPACE}'`);
   log(`Loaded ${ALL_FILES.length} files`);
-  const first = FILES[fromHash] ? fromHash : 'about';
+  const first = FILES[fromHash] ? fromHash : 'workstation';
   state.active = null;
   openFile(first, { focus: false });
   state.back = [];

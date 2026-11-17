@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark-modern">
+<html lang="en" data-theme="neon">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Sreehari S - Software Engineer</title>
   <meta name="description" content="Sreehari S — Software Engineer with 3+ years of experience in C++, Python and Linux. An interactive resume that looks and works like Visual Studio Code.">
-  <meta name="theme-color" content="#181818">
+  <meta name="theme-color" content="#0d0b17">
   <meta property="og:title" content="Sreehari S - Software Engineer">
   <meta property="og:description" content="An interactive resume that looks and works like Visual Studio Code.">
   <meta property="og:type" content="website">
@@ -218,6 +218,7 @@
             <button class="action" id="findClose" title="Close (Escape)"><i class="codicon codicon-close"></i></button>
           </div>
           <article class="md-preview" id="mdPreview"></article>
+          <div class="scene3d" id="scene3d"></div>
         </div>
         <div class="watermark" id="watermark">
           <div class="wm-logo" aria-hidden="true">{S}</div>
@@ -275,6 +276,7 @@
       <button class="sb-item" data-cmd="view.scm" title="main (Git) — career history"><i class="codicon codicon-git-branch"></i><span>main</span></button>
       <button class="sb-item sb-hide-m" id="sbSync" title="Synchronize Changes"><i class="codicon codicon-sync"></i></button>
       <button class="sb-item" data-cmd="panel.problems" title="No Problems"><i class="codicon codicon-error"></i><span>0</span><i class="codicon codicon-warning"></i><span>0</span></button>
+      <button class="sb-item sb-lab sb-hide-m" data-cmd="workstation" title="Homelab: 6/6 servers online. Open Workstation.glb"><span class="sb-pulse"></span><i class="codicon codicon-server-environment"></i><span>homelab 6/6</span></button>
       <span class="sb-item sb-msg" id="sbMsg"></span>
     </div>
     <div class="sb-right">
@@ -296,6 +298,7 @@
 <div class="menu" id="menu" role="menu"></div>
 <div class="notifications" id="notifications" aria-live="polite"></div>
 
+<script src="workstation.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
