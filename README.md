@@ -1,128 +1,76 @@
-# VS Code Resume Website
+# sreehari229.github.io
 
-A personal resume website that perfectly mimics the Visual Studio Code interface, built with HTML, CSS, and JavaScript for easy deployment to GitHub Pages.
+The interactive resume of **Sreehari S**, built to look and work like Visual Studio Code.
+Live at [sreehari229.in](https://sreehari229.in).
 
-## Features
+Plain HTML, CSS and JavaScript: no build step and no framework. The only external assets are
+[Codicons](https://github.com/microsoft/vscode-codicons) (VS Code's icon font) and the Fira Code font.
 
-- **Authentic VS Code Interface**: Exact replica of VS Code's Dark+ theme with proper colors, fonts, and layout
-- **Interactive Navigation**: Click through different resume sections presented as code files
-- **Syntax Highlighting**: Each section displays with appropriate programming language formatting:
-  - About.md (Markdown)
-  - Experience.js (JavaScript)
-  - Education.json (JSON)
-  - Skills.py (Python)
-  - Contact.yml (YAML)
-- **Responsive Design**: Works on both desktop and mobile devices
-- **Resume Download**: Built-in button to download PDF version
-- **GitHub Pages Ready**: No build process required
+## What's inside
 
-## Resume Content
+| Part of VS Code | What it does here |
+| --- | --- |
+| **Title bar** | Working menus (File, Edit, View, Go, Run, Terminal, Help), a command center, back/forward navigation and layout toggles |
+| **Explorer** | A file tree, Open Editors, an Outline of the current file, and a collapsible Timeline section |
+| **Editor** | Tabs (drag to reorder, middle-click to close), breadcrumbs, line numbers, syntax highlighting, bracket-pair colours, indent guides, code folding, a minimap, word wrap, a cursor you can move with the keyboard, and clickable links |
+| **Find (Ctrl+F)** | Find in the open file, with match-case, whole-word and regex options |
+| **Search (Ctrl+Shift+F)** | Search across every file and jump to a result |
+| **Source Control** | Career history drawn as a git graph. The commit box opens an email to Sreehari |
+| **Run and Debug (F5)** | Runs `Skills.py` in the terminal while the status bar turns orange |
+| **Extensions** | Skills listed as installed extensions |
+| **Terminal** | Try `help`, `neofetch`, `experience`, `git log`, `ls -la`, `cat About.md`, `theme light-modern` and more |
+| **Command Palette** | `Ctrl+Shift+P` / `F1` for commands, `Ctrl+P` for files, `:` for a line, `@` for a symbol |
+| **Themes** | Dark Modern, Dark+, Light Modern and Light+ (`Ctrl+K Ctrl+T`). The choice is remembered |
+| **Markdown preview** | `Ctrl+Shift+V` on `About.md` or `README.md` |
+| **Status bar** | Cursor position, language, indentation, notifications and an "Open to work" button |
 
-The site displays resume information for **Sreehari S**, a Software Engineer with 3+ years of experience:
+The site also works on phones: the side bar becomes an overlay and the editor wraps long lines.
+Deep links open a specific file, for example `/#experience` or `/#skills`.
 
-- **Current Role**: Software Engineer at Itron Inc, Bangalore
-- **Previous Role**: Programmer at Cognizant Technology Solutions
-- **Education**: Masters in Computer Science from St Joseph's University
-- **Skills**: C++, Python, MongoDB, Git, Azure, Docker, and more
+### Keyboard shortcuts
 
-## Deployment to GitHub Pages
+| Shortcut | Action |
+| --- | --- |
+| `Ctrl+P` | Go to file |
+| `Ctrl+Shift+P` / `F1` | Command Palette |
+| `Ctrl+B` | Toggle the side bar |
+| `` Ctrl+` `` / `Ctrl+J` | Toggle the terminal / panel |
+| `Ctrl+F`, `Ctrl+Shift+F` | Find in file, search all files |
+| `Ctrl+G`, `Ctrl+Shift+O` | Go to line, go to symbol |
+| `Ctrl+K Ctrl+T` | Color theme |
+| `Alt+Z` | Toggle word wrap |
+| `Alt+1` … `Alt+9` | Switch to tab *n* |
+| `Ctrl+S` | Download the resume as text |
+| `F5` | Run `Skills.py` |
 
-### Quick Setup
+On macOS use `Cmd` in place of `Ctrl`.
 
-1. **Create a GitHub Repository**
-   ```bash
-   # Create a new repository named: your-username.github.io
-   # Or any name for a project site
-   ```
+## Editing the resume
 
-2. **Upload Files**
-   - Download the HTML, CSS, and JS files from this project
-   - Upload them to your repository root
-   - Ensure the main file is named `index.html`
+All resume content lives in the `resumeData` object at the top of `app.js`.
+Each "file" in the explorer is generated from that data by the matching function in `SRC`
+(`about`, `experience`, `education`, `skills`, `contact`, `readme`, `settings`), so you can update the
+data or the text of any file in one place.
 
-3. **Enable GitHub Pages**
-   - Go to repository Settings → Pages
-   - Under "Source", select "Deploy from a branch"
-   - Choose "main" branch and "/ (root)" folder
-   - Click Save
-
-4. **Access Your Site**
-   - Your site will be live at: `https://your-username.github.io/repository-name`
-   - GitHub will provide the exact URL in the Pages settings
-
-### Customization
-
-To customize with your own resume:
-
-1. **Edit Resume Data**: Update the `resumeData` object in `app.js` with your information
-2. **Replace PDF**: Update the download link in the download button functionality
-3. **Modify Colors**: Adjust CSS variables in `:root` for custom theming
-4. **Add Sections**: Extend the file structure by adding new entries to the sidebar
-
-### File Structure
+## Project structure
 
 ```
-├── index.html          # Main HTML file with VS Code layout
-├── style.css           # VS Code themed styling (embedded in HTML)
-├── app.js             # Resume data and interactivity (embedded in HTML)
-└── README.md          # This documentation
+├── index.html   # Workbench layout (title bar, activity bar, side bar, editor, panel, status bar)
+├── style.css    # VS Code theme colors and layout
+├── app.js       # Resume data, editor engine, terminal, command palette and views
+├── CNAME        # Custom domain for GitHub Pages
+└── README.md
 ```
 
-### Technical Details
+## Running locally
 
-- **Framework**: Pure HTML/CSS/JavaScript (no dependencies)
-- **Fonts**: Uses Fira Code, Consolas, Menlo, Monaco (monospace fallbacks)
-- **Colors**: Exact VS Code Dark+ theme color palette
-- **Icons**: Inline SVG icons matching VS Code's iconography
-- **Performance**: Optimized for fast loading with embedded assets
+Any static file server works:
 
-### Browser Support
+```bash
+python3 -m http.server 8000
+# then open http://localhost:8000
+```
 
-- Chrome/Chromium (recommended)
-- Firefox
-- Safari
-- Edge
-- Mobile browsers
+## Deployment
 
-### Local Development
-
-1. Download all files to a local directory
-2. Open `index.html` in your browser
-3. No server required for basic functionality
-
-### GitHub Pages Limitations
-
-- Static files only (no server-side processing)
-- File size limits (100MB per file, 1GB per repository)
-- Bandwidth limits (100GB per month)
-- Custom domains supported with proper DNS configuration
-
-### Troubleshooting
-
-**Site not loading after deployment:**
-- Ensure `index.html` is in the repository root
-- Check that GitHub Pages is enabled in repository settings
-- Wait 5-10 minutes for deployment to complete
-
-**Styling not appearing:**
-- Verify CSS is embedded in HTML or properly linked
-- Check browser console for loading errors
-
-**Mobile responsiveness issues:**
-- Test on various screen sizes
-- Ensure viewport meta tag is present
-
-### Contributing
-
-Feel free to fork this project and submit pull requests for improvements:
-- Enhanced mobile responsiveness
-- Additional file type support
-- New VS Code themes
-- Performance optimizations
-
-### License
-
-This project is open source and available under the MIT License.
-
----
-
+The site is served by GitHub Pages from the `main` branch root. Push to `main` and Pages publishes it.

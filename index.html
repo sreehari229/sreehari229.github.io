@@ -1,164 +1,301 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark-modern">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sreehari S - Software Engineer</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sreehari S - Software Engineer</title>
+  <meta name="description" content="Sreehari S — Software Engineer with 3+ years of experience in C++, Python and Linux. An interactive resume that looks and works like Visual Studio Code.">
+  <meta name="theme-color" content="#181818">
+  <meta property="og:title" content="Sreehari S - Software Engineer">
+  <meta property="og:description" content="An interactive resume that looks and works like Visual Studio Code.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230078d4'/%3E%3Ctext x='16' y='22' font-family='Consolas,monospace' font-size='15' font-weight='700' text-anchor='middle' fill='white'%3E%7BS%7D%3C/text%3E%3C/svg%3E">
+  <script>try{var t=JSON.parse(localStorage.getItem('vsr.theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vscode/codicons@0.0.36/dist/codicon.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="vscode-container">
-        <!-- Activity Bar -->
-        <div class="activity-bar">
-            <div class="activity-item active">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M14.5 1H1.5C1.22386 1 1 1.22386 1 1.5V14.5C1 14.7761 1.22386 15 1.5 15H14.5C14.7761 15 15 14.7761 15 14.5V1.5C15 1.22386 14.7761 1 14.5 1ZM14 14H2V2H14V14Z"/>
-                    <path d="M3 3H13V4H3V3Z"/>
-                    <path d="M3 5H10V6H3V5Z"/>
-                    <path d="M3 7H13V8H3V7Z"/>
-                    <path d="M3 9H8V10H3V9Z"/>
-                </svg>
-            </div>
-            <div class="activity-item">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M15.7 13.3L11.9 9.5C12.6 8.5 13 7.3 13 6C13 2.7 10.3 0 7 0S1 2.7 1 6S3.7 12 7 12C8.3 12 9.5 11.6 10.5 10.9L14.3 14.7C14.5 14.9 14.8 15 15 15S15.5 14.9 15.7 14.7C16.1 14.3 16.1 13.7 15.7 13.3ZM7 10C4.8 10 3 8.2 3 6S4.8 2 7 2S11 3.8 11 6S9.2 10 7 10Z"/>
-                </svg>
-            </div>
-            <div class="activity-item">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M8 15C4.1 15 1 11.9 1 8S4.1 1 8 1S15 4.1 15 8S11.9 15 8 15ZM8 2C4.7 2 2 4.7 2 8S4.7 14 8 14S14 11.3 14 8S11.3 2 8 2Z"/>
-                    <path d="M8 11C6.3 11 5 9.7 5 8S6.3 5 8 5S11 6.3 11 8S9.7 11 8 11ZM8 6C6.9 6 6 6.9 6 8S6.9 10 8 10S10 9.1 10 8S9.1 6 8 6Z"/>
-                </svg>
-            </div>
-        </div>
+<div class="workbench" id="workbench">
 
-        <!-- Primary Sidebar -->
-        <div class="primary-sidebar">
-            <div class="sidebar-header">
-                <span class="explorer-title">EXPLORER</span>
-                <div class="sidebar-actions">
-                    <button class="sidebar-action" id="downloadBtn" title="Download Resume">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M8.5 1V11.293L11.146 8.646L11.854 9.354L8 13.207L4.146 9.354L4.854 8.646L7.5 11.293V1H8.5Z"/>
-                            <path d="M2 14H14V15H2V14Z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="file-explorer">
-                <div class="folder-section">
-                    <div class="folder-header">
-                        <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M14.5 3H7.71L6.85 2.15C6.54 1.84 6.11 1.66 5.67 1.66H1.5C0.67 1.66 0 2.33 0 3.16V12.5C0 13.33 0.67 14 1.5 14H14.5C15.33 14 16 13.33 16 12.5V4.5C16 3.67 15.33 3 14.5 3Z"/>
-                        </svg>
-                        <span>SREEHARI-RESUME</span>
-                    </div>
-                    <div class="file-list">
-                        <div class="file-item active" data-file="about">
-                            <svg class="file-icon markdown-icon" width="16" height="16" viewBox="0 0 16 16" fill="#519aba">
-                                <rect width="16" height="16" rx="2" fill="#519aba"/>
-                                <text x="8" y="11" font-family="Arial, sans-serif" font-size="6" font-weight="bold" text-anchor="middle" fill="white">M</text>
-                                <circle cx="3" cy="4" r="1" fill="white"/>
-                                <circle cx="13" cy="4" r="1" fill="white"/>
-                            </svg>
-                            <span>About.md</span>
-                        </div>
-                        <div class="file-item" data-file="experience">
-                            <svg class="file-icon js-icon" width="16" height="16" viewBox="0 0 16 16" fill="#f1e05a">
-                                <rect width="16" height="16" rx="2" fill="#f1e05a"/>
-                                <text x="8" y="11" font-family="Arial, sans-serif" font-size="5" font-weight="bold" text-anchor="middle" fill="#323330">JS</text>
-                            </svg>
-                            <span>Experience.js</span>
-                        </div>
-                        <div class="file-item" data-file="education">
-                            <svg class="file-icon json-icon" width="16" height="16" viewBox="0 0 16 16" fill="#4caf50">
-                                <rect width="16" height="16" rx="2" fill="#4caf50"/>
-                                <text x="2" y="11" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">{</text>
-                                <text x="14" y="11" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">}</text>
-                            </svg>
-                            <span>Education.json</span>
-                        </div>
-                        <div class="file-item" data-file="skills">
-                            <svg class="file-icon python-icon" width="16" height="16" viewBox="0 0 16 16" fill="#3776ab">
-                                <rect width="16" height="16" rx="2" fill="#3776ab"/>
-                                <ellipse cx="5" cy="6" rx="2" ry="3" fill="#ffd43b"/>
-                                <ellipse cx="11" cy="10" rx="2" ry="3" fill="#ffd43b"/>
-                                <circle cx="4" cy="4" r="0.5" fill="#3776ab"/>
-                                <circle cx="12" cy="12" r="0.5" fill="#3776ab"/>
-                            </svg>
-                            <span>Skills.py</span>
-                        </div>
-                        <div class="file-item" data-file="contact">
-                            <svg class="file-icon yaml-icon" width="16" height="16" viewBox="0 0 16 16" fill="#cb171e">
-                                <rect width="16" height="16" rx="2" fill="#cb171e"/>
-                                <text x="8" y="11" font-family="Arial, sans-serif" font-size="6" font-weight="bold" text-anchor="middle" fill="white">Y</text>
-                                <path d="M3 4 L13 4" stroke="white" stroke-width="0.5"/>
-                                <path d="M3 6 L10 6" stroke="white" stroke-width="0.5"/>
-                                <path d="M3 8 L11 8" stroke="white" stroke-width="0.5"/>
-                            </svg>
-                            <span>Contact.yml</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Editor Area -->
-        <div class="main-editor">
-            <!-- Tab Bar -->
-            <div class="tab-bar">
-                <div class="tab active" id="activeTab">
-                    <svg class="tab-icon markdown-icon" width="16" height="16" viewBox="0 0 16 16" fill="#519aba">
-                        <rect width="16" height="16" rx="2" fill="#519aba"/>
-                        <text x="8" y="11" font-family="Arial, sans-serif" font-size="6" font-weight="bold" text-anchor="middle" fill="white">M</text>
-                        <circle cx="3" cy="4" r="1" fill="white"/>
-                        <circle cx="13" cy="4" r="1" fill="white"/>
-                    </svg>
-                    <span class="tab-title">About.md</span>
-                    <svg class="tab-close" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M12.854 4.854a.5.5 0 00-.708-.708L8 8.293 3.854 4.146a.5.5 0 10-.708.708L7.293 9l-4.147 4.146a.5.5 0 00.708.708L8 9.707l4.146 4.147a.5.5 0 00.708-.708L8.707 9l4.147-4.146z"/>
-                    </svg>
-                </div>
-            </div>
-
-            <!-- Editor Content -->
-            <div class="editor-content">
-                <div class="code-area">
-                    <pre class="code-content" id="codeContent"></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- Status Bar -->
-        <div class="status-bar">
-            <div class="status-left">
-                <span class="status-item">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M1.5 1A1.5 1.5 0 000 2.5v11A1.5 1.5 0 001.5 15h13a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0014.5 1h-13zM1 2.5a.5.5 0 01.5-.5h13a.5.5 0 01.5.5v11a.5.5 0 01-.5.5h-13a.5.5 0 01-.5-.5v-11z"/>
-                        <path d="M11.5 6a.5.5 0 01-.5-.5V4.5a.5.5 0 011 0V5.5a.5.5 0 01-.5.5z"/>
-                    </svg>
-                    <span id="currentBranch">main</span>
-                </span>
-                <span class="status-item">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
-                        <path d="M8 4a.5.5 0 00-.5.5v3.793L5.354 6.146a.5.5 0 10-.708.708l3 3a.5.5 0 00.708 0l3-3a.5.5 0 00-.708-.708L8.5 8.293V4.5A.5.5 0 008 4z"/>
-                    </svg>
-                    <span>0 ↓ 0 ↑</span>
-                </span>
-            </div>
-            <div class="status-right">
-                <span class="status-item">Ln <span id="currentLine">1</span>, Col <span id="currentCol">1</span></span>
-                <span class="status-item">Spaces: 2</span>
-                <span class="status-item">UTF-8</span>
-                <span class="status-item" id="fileType">Markdown</span>
-            </div>
-        </div>
+  <!-- ═════════════════════ Title bar ═════════════════════ -->
+  <header class="titlebar">
+    <div class="tb-left">
+      <div class="app-icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="var(--accent)"/><text x="16" y="22" font-family="Consolas,monospace" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">{S}</text></svg>
+      </div>
+      <button class="tb-btn hamburger" id="hamburger" title="Application Menu"><i class="codicon codicon-menu"></i></button>
+      <nav class="menubar" id="menubar" aria-label="Menu bar">
+        <button class="menubar-item" data-menu="File">File</button>
+        <button class="menubar-item" data-menu="Edit">Edit</button>
+        <button class="menubar-item" data-menu="Selection">Selection</button>
+        <button class="menubar-item" data-menu="View">View</button>
+        <button class="menubar-item" data-menu="Go">Go</button>
+        <button class="menubar-item" data-menu="Run">Run</button>
+        <button class="menubar-item" data-menu="Terminal">Terminal</button>
+        <button class="menubar-item" data-menu="Help">Help</button>
+      </nav>
     </div>
+    <div class="tb-center">
+      <button class="tb-btn nav-btn" id="navBack" title="Go Back (Alt+Left)"><i class="codicon codicon-arrow-left"></i></button>
+      <button class="tb-btn nav-btn" id="navFwd" title="Go Forward (Alt+Right)"><i class="codicon codicon-arrow-right"></i></button>
+      <button class="cc-box" id="commandCenter" title="Search sreehari-resume (Ctrl+P)">
+        <i class="codicon codicon-search"></i><span>sreehari-resume</span>
+      </button>
+    </div>
+    <div class="tb-right">
+      <div class="tb-layout">
+        <button class="tb-btn" id="tbSidebar" data-cmd="toggleSidebar" title="Toggle Primary Side Bar (Ctrl+B)"><i class="codicon codicon-layout-sidebar-left"></i></button>
+        <button class="tb-btn" id="tbPanel" data-cmd="togglePanel" title="Toggle Panel (Ctrl+J)"><i class="codicon codicon-layout-panel"></i></button>
+        <button class="tb-btn" data-cmd="theme" title="Color Theme (Ctrl+K Ctrl+T)"><i class="codicon codicon-color-mode"></i></button>
+      </div>
+      <div class="window-controls">
+        <button class="wc" data-wc="min" title="Minimize"><i class="codicon codicon-chrome-minimize"></i></button>
+        <button class="wc" data-wc="max" title="Maximize"><i class="codicon codicon-chrome-maximize"></i></button>
+        <button class="wc close" data-wc="close" title="Close"><i class="codicon codicon-chrome-close"></i></button>
+      </div>
+    </div>
+  </header>
 
-    <script src="app.js"></script>
+  <div class="workbench-body">
+
+    <!-- ═════════════════════ Activity bar ═════════════════════ -->
+    <nav class="activitybar" id="activitybar" aria-label="Activity bar">
+      <div class="ab-group">
+        <button class="ab-item active" data-view="explorer" title="Explorer (Ctrl+Shift+E)"><i class="codicon codicon-files"></i></button>
+        <button class="ab-item" data-view="search" title="Search (Ctrl+Shift+F)"><i class="codicon codicon-search"></i></button>
+        <button class="ab-item" data-view="scm" title="Source Control (Ctrl+Shift+G)"><i class="codicon codicon-source-control"></i><span class="ab-badge" id="scmBadge">4</span></button>
+        <button class="ab-item" data-view="run" title="Run and Debug (Ctrl+Shift+D)"><i class="codicon codicon-debug-alt"></i></button>
+        <button class="ab-item" data-view="extensions" title="Extensions (Ctrl+Shift+X)"><i class="codicon codicon-extensions"></i></button>
+      </div>
+      <div class="ab-group">
+        <button class="ab-item" id="accountsBtn" title="Accounts"><i class="codicon codicon-account"></i></button>
+        <button class="ab-item" id="manageBtn" title="Manage"><i class="codicon codicon-settings-gear"></i></button>
+      </div>
+    </nav>
+
+    <!-- ═════════════════════ Side bar ═════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+
+      <section class="view active" data-view="explorer">
+        <div class="view-title">
+          <h2>Explorer</h2>
+          <div class="view-actions"><button class="action" id="explorerMore" title="Views and More Actions..."><i class="codicon codicon-ellipsis"></i></button></div>
+        </div>
+        <div class="view-body">
+          <div class="pane" data-pane="open-editors">
+            <div class="pane-header"><i class="twistie codicon codicon-chevron-right"></i><span class="pane-title">Open Editors</span>
+              <div class="pane-actions"><button class="action" data-cmd="closeAll" title="Close All Editors"><i class="codicon codicon-close-all"></i></button></div>
+            </div>
+            <div class="pane-body tree" id="openEditors" tabindex="0"></div>
+          </div>
+          <div class="pane expanded grow" data-pane="folder">
+            <div class="pane-header"><i class="twistie codicon codicon-chevron-right"></i><span class="pane-title">sreehari-resume</span>
+              <div class="pane-actions">
+                <button class="action" data-cmd="download" title="Download Resume"><i class="codicon codicon-cloud-download"></i></button>
+                <button class="action" data-cmd="refreshExplorer" title="Refresh Explorer"><i class="codicon codicon-refresh"></i></button>
+                <button class="action" data-cmd="collapseFolders" title="Collapse Folders in Explorer"><i class="codicon codicon-collapse-all"></i></button>
+              </div>
+            </div>
+            <div class="pane-body tree" id="fileTree" tabindex="0"></div>
+          </div>
+          <div class="pane" data-pane="outline">
+            <div class="pane-header"><i class="twistie codicon codicon-chevron-right"></i><span class="pane-title">Outline</span></div>
+            <div class="pane-body tree" id="outline" tabindex="0"></div>
+          </div>
+          <div class="pane" data-pane="timeline">
+            <div class="pane-header"><i class="twistie codicon codicon-chevron-right"></i><span class="pane-title">Timeline</span></div>
+            <div class="pane-body"><div class="pane-msg">The active editor cannot provide timeline information.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" data-view="search">
+        <div class="view-title">
+          <h2>Search</h2>
+          <div class="view-actions">
+            <button class="action" id="searchRefresh" title="Refresh"><i class="codicon codicon-refresh"></i></button>
+            <button class="action" id="searchClear" title="Clear Search Results"><i class="codicon codicon-clear-all"></i></button>
+            <button class="action" id="searchCollapse" title="Collapse All"><i class="codicon codicon-collapse-all"></i></button>
+          </div>
+        </div>
+        <div class="search-form">
+          <div class="input-box">
+            <input id="searchInput" placeholder="Search" spellcheck="false" autocomplete="off" aria-label="Search">
+            <button class="opt" data-sopt="case" title="Match Case"><i class="codicon codicon-case-sensitive"></i></button>
+            <button class="opt" data-sopt="word" title="Match Whole Word"><i class="codicon codicon-whole-word"></i></button>
+            <button class="opt" data-sopt="regex" title="Use Regular Expression"><i class="codicon codicon-regex"></i></button>
+          </div>
+        </div>
+        <div class="search-msg" id="searchMsg"></div>
+        <div class="view-scroll tree" id="searchResults" tabindex="0"></div>
+      </section>
+
+      <section class="view" data-view="scm">
+        <div class="view-title">
+          <h2>Source Control</h2>
+          <div class="view-actions">
+            <button class="action" id="scmCommitTop" title="Commit"><i class="codicon codicon-check"></i></button>
+            <button class="action" id="scmRefresh" title="Refresh"><i class="codicon codicon-refresh"></i></button>
+          </div>
+        </div>
+        <div class="scm-form">
+          <textarea id="commitMsg" rows="1" placeholder="Message (Ctrl+Enter to send to Sreehari)" spellcheck="true"></textarea>
+          <button class="btn block" id="commitBtn"><i class="codicon codicon-check"></i>Commit</button>
+          <p class="scm-hint">Commits here are delivered by email&nbsp;— say hello!</p>
+        </div>
+        <div class="view-body">
+          <div class="pane expanded grow" data-pane="graph">
+            <div class="pane-header"><i class="twistie codicon codicon-chevron-right"></i><span class="pane-title">Graph</span>
+              <div class="pane-actions"><button class="action" data-cmd="view.scmRefresh" title="Refresh"><i class="codicon codicon-refresh"></i></button></div>
+            </div>
+            <div class="pane-body tree" id="scmGraph" tabindex="0"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" data-view="run">
+        <div class="view-title">
+          <h2>Run and Debug</h2>
+          <div class="view-actions"><button class="action" data-cmd="run" title="Start Debugging (F5)"><i class="codicon codicon-debug-start"></i></button></div>
+        </div>
+        <div class="run-body">
+          <button class="btn block" data-cmd="run">Run and Debug</button>
+          <p>Runs <a href="#" data-open-link="skills">Skills.py</a> in the integrated terminal. You can also press <span class="kbd-inline" data-kb="F5"></span>.</p>
+          <p>To customize Run and Debug, <a href="#" data-cmd="commands">open the Command Palette</a> and explore.</p>
+        </div>
+      </section>
+
+      <section class="view" data-view="extensions">
+        <div class="view-title">
+          <h2>Extensions</h2>
+          <div class="view-actions"><button class="action" id="extClear" title="Clear Extensions Search Results"><i class="codicon codicon-clear-all"></i></button></div>
+        </div>
+        <div class="search-form">
+          <div class="input-box"><input id="extSearch" placeholder="Search Extensions in Marketplace" spellcheck="false" autocomplete="off" aria-label="Search extensions"><i class="codicon codicon-filter input-icon"></i></div>
+        </div>
+        <div class="view-body">
+          <div class="pane expanded grow" data-pane="installed">
+            <div class="pane-header"><i class="twistie codicon codicon-chevron-right"></i><span class="pane-title">Installed</span><span class="badge pane-badge" id="extCount">0</span></div>
+            <div class="pane-body" id="extList"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="sash sash-v" id="sidebarSash"></div>
+    </aside>
+
+    <!-- ═════════════════════ Editor + panel ═════════════════════ -->
+    <main class="editor-part" id="editorPart">
+      <div class="editor-group" id="editorGroup">
+        <div class="tabs-container">
+          <div class="tabs" id="tabs" role="tablist"></div>
+          <div class="editor-actions">
+            <button class="action" id="previewBtn" data-cmd="markdown.preview" title="Open Preview (Ctrl+Shift+V)"><i class="codicon codicon-open-preview"></i></button>
+            <button class="action" id="editorMore" title="More Actions..."><i class="codicon codicon-ellipsis"></i></button>
+          </div>
+        </div>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+        <div class="editor" id="editor" tabindex="0" aria-label="Editor content (read-only)">
+          <div class="editor-scroll" id="editorScroll">
+            <div class="lines" id="lines"></div>
+            <div class="caret" id="caret"></div>
+          </div>
+          <div class="minimap" id="minimap"><canvas id="minimapCanvas"></canvas><div class="mm-slider" id="mmSlider"></div></div>
+          <div class="find-widget" id="findWidget">
+            <button class="opt fw-toggle" title="Toggle Replace" tabindex="-1"><i class="codicon codicon-chevron-right"></i></button>
+            <div class="input-box find-input">
+              <input id="findInput" placeholder="Find" spellcheck="false" autocomplete="off" aria-label="Find">
+              <button class="opt" data-fopt="case" title="Match Case"><i class="codicon codicon-case-sensitive"></i></button>
+              <button class="opt" data-fopt="word" title="Match Whole Word"><i class="codicon codicon-whole-word"></i></button>
+              <button class="opt" data-fopt="regex" title="Use Regular Expression"><i class="codicon codicon-regex"></i></button>
+            </div>
+            <span class="find-count" id="findCount">No results</span>
+            <button class="action" id="findPrev" title="Previous Match (Shift+Enter)"><i class="codicon codicon-arrow-up"></i></button>
+            <button class="action" id="findNext" title="Next Match (Enter)"><i class="codicon codicon-arrow-down"></i></button>
+            <button class="action" id="findClose" title="Close (Escape)"><i class="codicon codicon-close"></i></button>
+          </div>
+          <article class="md-preview" id="mdPreview"></article>
+        </div>
+        <div class="watermark" id="watermark">
+          <div class="wm-logo" aria-hidden="true">{S}</div>
+          <dl class="wm-keys">
+            <div><dt>Show All Commands</dt><dd data-kb="Ctrl+Shift+P"></dd></div>
+            <div><dt>Go to File</dt><dd data-kb="Ctrl+P"></dd></div>
+            <div><dt>Find in Files</dt><dd data-kb="Ctrl+Shift+F"></dd></div>
+            <div><dt>Toggle Terminal</dt><dd data-kb="Ctrl+`"></dd></div>
+            <div><dt>Download Resume</dt><dd data-kb="Ctrl+S"></dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="sash sash-h" id="panelSash"></div>
+
+      <section class="panel" id="panel">
+        <div class="panel-header">
+          <div class="panel-tabs" id="panelTabs" role="tablist">
+            <button class="panel-tab" data-panel="problems">Problems</button>
+            <button class="panel-tab" data-panel="output">Output</button>
+            <button class="panel-tab" data-panel="debug">Debug Console</button>
+            <button class="panel-tab active" data-panel="terminal">Terminal</button>
+            <button class="panel-tab" data-panel="ports">Ports</button>
+          </div>
+          <div class="panel-actions">
+            <span class="term-only term-name"><i class="codicon codicon-terminal"></i>bash</span>
+            <button class="action term-only" data-cmd="newTerminal" title="New Terminal (Ctrl+Shift+`)"><i class="codicon codicon-add"></i></button>
+            <button class="action term-only" data-cmd="clearTerminal" title="Clear Terminal"><i class="codicon codicon-trash"></i></button>
+            <button class="action" id="panelMax" title="Maximize Panel Size"><i class="codicon codicon-chevron-up"></i></button>
+            <button class="action" data-cmd="togglePanel" title="Hide Panel (Ctrl+J)"><i class="codicon codicon-close"></i></button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="panel-view" data-panel="problems"><div class="panel-msg">No problems have been detected in the workspace.</div></div>
+          <div class="panel-view" data-panel="output"><div class="output" id="outputLog"></div></div>
+          <div class="panel-view" data-panel="debug"><div class="output" id="debugLog"><div class="muted">Press F5 to start debugging Skills.py.</div></div></div>
+          <div class="panel-view active" data-panel="terminal">
+            <div class="terminal" id="terminal">
+              <div id="termOut"></div>
+              <div class="term-line"><span class="term-prompt" id="termPrompt"></span><input id="termInput" class="term-input" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Terminal input"></div>
+            </div>
+          </div>
+          <div class="panel-view" data-panel="ports">
+            <div class="panel-msg">No forwarded ports. Forward a port to access your running services locally.<br><button class="btn" id="forwardPort">Forward a Port</button></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ═════════════════════ Status bar ═════════════════════ -->
+  <footer class="statusbar" id="statusbar">
+    <div class="sb-left">
+      <button class="sb-item sb-remote" id="sbRemote" title="Open to new opportunities"><i class="codicon codicon-remote"></i><span class="sb-remote-label">Open to work</span></button>
+      <button class="sb-item" data-cmd="view.scm" title="main (Git) — career history"><i class="codicon codicon-git-branch"></i><span>main</span></button>
+      <button class="sb-item sb-hide-m" id="sbSync" title="Synchronize Changes"><i class="codicon codicon-sync"></i></button>
+      <button class="sb-item" data-cmd="panel.problems" title="No Problems"><i class="codicon codicon-error"></i><span>0</span><i class="codicon codicon-warning"></i><span>0</span></button>
+      <span class="sb-item sb-msg" id="sbMsg"></span>
+    </div>
+    <div class="sb-right">
+      <button class="sb-item sb-ed" id="sbPos" data-cmd="gotoLine" title="Go to Line/Column">Ln 1, Col 1</button>
+      <button class="sb-item sb-ed sb-hide-m" id="sbIndent" title="Indentation">Spaces: 2</button>
+      <button class="sb-item sb-ed sb-hide-m" title="Encoding">UTF-8</button>
+      <button class="sb-item sb-ed sb-hide-m" title="End of Line Sequence">LF</button>
+      <button class="sb-item sb-ed" id="sbLang" title="Language Mode"><i class="codicon codicon-json"></i><span id="sbLangName">Markdown</span></button>
+      <button class="sb-item" data-cmd="download" title="Download Resume (Ctrl+S)"><i class="codicon codicon-cloud-download"></i><span class="sb-hide-m">Resume</span></button>
+      <button class="sb-item" id="sbBell" title="No New Notifications"><i class="codicon codicon-bell"></i></button>
+    </div>
+  </footer>
+</div>
+
+<div class="quick-input" id="quickInput" role="dialog" aria-label="Quick input">
+  <div class="input-box qi-input"><input id="qiInput" spellcheck="false" autocomplete="off" aria-label="Type to search"></div>
+  <div class="qi-list" id="qiList" role="listbox"></div>
+</div>
+<div class="menu" id="menu" role="menu"></div>
+<div class="notifications" id="notifications" aria-live="polite"></div>
+
+<script src="app.js"></script>
 </body>
 </html>
